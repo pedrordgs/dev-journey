@@ -1,4 +1,8 @@
-import { Repository, getGroupedReposWithSortedYears } from '@/lib/github'
+import {
+  Repository,
+  getGroupedReposWithSortedYears,
+  getLanguageColor,
+} from '@/lib/github'
 import {
   Card,
   CardContent,
@@ -77,7 +81,10 @@ export function RepoSummary({ repos }: RepoSummaryProps) {
             {topLanguages.map(([language, count]) => (
               <div key={language} className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 rounded-full bg-primary" />
+                  <div
+                    className="w-3 h-3 rounded-full"
+                    style={{ backgroundColor: getLanguageColor(language) }}
+                  />
                   <span className="text-sm">{language}</span>
                 </div>
                 <span className="text-sm font-medium">{count}</span>
