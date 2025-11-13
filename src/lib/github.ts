@@ -33,13 +33,22 @@ export async function fetchUser(username: string): Promise<User> {
 }
 
 export async function fetchUserRepos(username: string): Promise<Repository[]> {
-  const { data } = await octokit.repos.listForUser({
-    username,
-    sort: 'created',
-    direction: 'desc',
-    per_page: 100,
-  })
-  return data as Repository[]
+  const allRepos: Repository[] = [];
+  let page = 1;
+  let fetched: Repository[] = [];
+  do {
+    const { data } = await octokit.repos.listForUser({
+      username,
+      sort: 'created',
+      direction: 'desc',
+      per_page: 100,
+      page,
+    });
+    fetched = data as Repository[];
+    allRepos.push(...fetched);
+    page++;
+  } while (fetched.length === 100);
+  return allRepos;
 }
 
 export function groupReposByYear(
