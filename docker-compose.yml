@@ -4,8 +4,9 @@ services:
     ports:
       - '3000:3000'
     volumes:
-      - .:/app
-      - /app/node_modules
+      - ./src:/app/src
+      - ./public:/app/public
+      - ./components.json:/app/components.json
     environment:
       - NODE_ENV=development
 
