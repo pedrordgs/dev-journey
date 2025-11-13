@@ -71,3 +71,4 @@ GET /users/{username}/repos
 - [GitHub REST API Documentation](https://developer.github.com/v3/)
 - [Next.js Documentation](https://nextjs.org/docs)
 - [Shadcn UI](https://ui.shadcn.com/)
+- [Tailwind CSS](https://tailwindcss.com/)
