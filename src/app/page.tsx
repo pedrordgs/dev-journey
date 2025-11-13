@@ -24,12 +24,13 @@ export default function Home() {
       const userRepos = await fetchUserRepos(username)
       setRepos(userRepos)
     } catch (err) {
-      if (err instanceof Error) {
-        if (err.message.includes('404')) {
+      if (err && typeof err === 'object' && 'status' in err) {
+        const status = (err as { status: number }).status
+        if (status === 404) {
           setError(
             `User "${username}" not found. Please check the username and try again.`
           )
-        } else if (err.message.includes('403')) {
+        } else if (status === 403) {
           setError('API rate limit exceeded. Please try again later.')
         } else {
           setError('Failed to fetch repositories. Please try again.')
