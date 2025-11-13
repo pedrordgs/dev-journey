@@ -66,3 +66,14 @@ export function groupReposByYear(
     {} as Record<string, Repository[]>
   )
 }
+
+export function getGroupedReposWithSortedYears(repos: Repository[]): {
+  reposByYear: Record<string, Repository[]>
+  sortedYears: string[]
+} {
+  const reposByYear = groupReposByYear(repos)
+  const sortedYears = Object.keys(reposByYear).sort(
+    (a, b) => parseInt(b) - parseInt(a)
+  )
+  return { reposByYear, sortedYears }
+}

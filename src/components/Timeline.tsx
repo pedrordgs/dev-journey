@@ -1,4 +1,4 @@
-import { Repository, groupReposByYear } from '@/lib/github'
+import { Repository, getGroupedReposWithSortedYears } from '@/lib/github'
 import {
   Card,
   CardContent,
@@ -13,14 +13,11 @@ interface TimelineProps {
 }
 
 export function Timeline({ repos }: TimelineProps) {
-  const reposByYear = groupReposByYear(repos)
-  const years = Object.keys(reposByYear).sort(
-    (a, b) => parseInt(b) - parseInt(a)
-  )
+  const { reposByYear, sortedYears } = getGroupedReposWithSortedYears(repos)
 
   return (
     <div className="space-y-8">
-      {years.map((year) => (
+      {sortedYears.map((year) => (
         <div key={year} className="relative">
           <div className="flex items-center gap-4 mb-4">
             <Calendar className="h-6 w-6 text-primary" />

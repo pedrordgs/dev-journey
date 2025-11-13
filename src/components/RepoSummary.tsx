@@ -1,4 +1,4 @@
-import { Repository, groupReposByYear } from '@/lib/github'
+import { Repository, getGroupedReposWithSortedYears } from '@/lib/github'
 import {
   Card,
   CardContent,
@@ -13,10 +13,7 @@ interface RepoSummaryProps {
 }
 
 export function RepoSummary({ repos }: RepoSummaryProps) {
-  const reposByYear = groupReposByYear(repos)
-  const years = Object.keys(reposByYear).sort(
-    (a, b) => parseInt(b) - parseInt(a)
-  )
+  const { reposByYear, sortedYears } = getGroupedReposWithSortedYears(repos)
   const totalRepos = repos.length
 
   const languageStats = repos.reduce(
@@ -56,7 +53,7 @@ export function RepoSummary({ repos }: RepoSummaryProps) {
             <div>
               <h4 className="font-medium mb-2">By Year</h4>
               <div className="space-y-1">
-                {years.map((year) => (
+                {sortedYears.map((year) => (
                   <div key={year} className="flex justify-between text-sm">
                     <span>{year}</span>
                     <span className="font-medium">
