@@ -27,6 +27,8 @@ export interface User {
 
 const octokit = new Octokit()
 
+const REPOS_PER_PAGE = 100
+
 function isUser(data: unknown): data is User {
   if (!data || typeof data !== 'object') return false
   const d = data as Record<string, unknown>
@@ -77,7 +79,7 @@ export async function fetchUserRepos(username: string): Promise<Repository[]> {
       username,
       sort: 'created',
       direction: 'desc',
-      per_page: 100,
+      per_page: REPOS_PER_PAGE,
       page,
     })
     // Validate that all items in the response are repositories
@@ -92,7 +94,7 @@ export async function fetchUserRepos(username: string): Promise<Repository[]> {
     fetched = data
     allRepos.push(...(data as Repository[]))
     page++
-  } while (fetched.length === 100)
+  } while (fetched.length === REPOS_PER_PAGE)
   return allRepos
 }
 
