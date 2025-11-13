@@ -1,3 +1,13 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+branch=$(git rev-parse --abbrev-ref HEAD)
+
+if [ "$branch" = "master" ]; then
+  echo "❌ Cannot commit to protected branch 'master'. Please create a pull request instead."
+  exit 1
+fi
+
 npx lint-staged
 npm run typecheck
 npm run test
