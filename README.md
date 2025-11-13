@@ -18,7 +18,7 @@ A beautiful, responsive web application that visualizes a GitHub user's public r
 
 ![GitHub Timeline Demo](https://via.placeholder.com/800x400?text=Demo+Screenshot)
 
-*Enter a GitHub username and click "Generate Timeline" to see the magic happen!*
+_Enter a GitHub username and click "Generate Timeline" to see the magic happen!_
 
 ## 📦 Installation
 
@@ -30,17 +30,20 @@ A beautiful, responsive web application that visualizes a GitHub user's public r
 ### Quick Start
 
 1. **Clone the repository**
+
    ```bash
    git clone https://github.com/pmr/github-timeline.git
    cd github-timeline
    ```
 
 2. **Install dependencies**
+
    ```bash
    npm install
    ```
 
 3. **Start development server**
+
    ```bash
    npm run dev
    ```
@@ -65,30 +68,38 @@ docker compose up --build
 
 ## 🏗 Tech Stack
 
-| Technology | Purpose |
-|------------|---------|
-| **Next.js 16** | React framework with App Router |
-| **TypeScript** | Type-safe JavaScript |
-| **Tailwind CSS 4** | Utility-first CSS framework |
-| **Shadcn UI** | Modern component library |
-| **Jest + RTL** | Testing framework |
-| **ESLint + Prettier** | Code quality and formatting |
-| **Docker** | Containerization |
+| Technology            | Purpose                         |
+| --------------------- | ------------------------------- |
+| **Next.js 16**        | React framework with App Router |
+| **TypeScript**        | Type-safe JavaScript            |
+| **Tailwind CSS 4**    | Utility-first CSS framework     |
+| **Shadcn UI**         | Modern component library        |
+| **Jest + RTL**        | Testing framework               |
+| **ESLint + Prettier** | Code quality and formatting     |
+| **Docker**            | Containerization                |
 
 ## 📋 Project Roadmap
 
 ### Phase 1: Core Features ✅
+
 - Basic timeline generation
 - Repository fetching from GitHub API
 - Responsive design
 
 ### Phase 2: Enhancements 🚧
+
 - [ ] Add repository language statistics
 - [ ] Implement timeline filtering options
 - [ ] Add export functionality (PDF/Image)
 - [ ] Dark mode support
+- [ ] Add repo detail page with title, description, tags, etc.
+- [ ] Inside repo page, add commit timeline for specific branch (show all users or allow to filter per user). Allow to filter per branch.
+- [ ] Redirect to commit detail when clicking on commit timeline
+- [ ] Allow to filter repos by language
+- [ ] Add statistics for user and for repo
 
 ### Phase 3: Advanced Features 📅
+
 - [ ] User authentication for private repos
 - [ ] Collaborative timelines
 - [ ] Integration with GitHub Actions
