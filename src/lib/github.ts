@@ -145,8 +145,6 @@ export const LANGUAGE_COLORS: Record<string, string> = {
   CSS: '#1572B6',
   Shell: '#89e051',
   Dockerfile: '#2496ED',
-  Vue: '#4FC08D',
-  React: '#61DAFB',
   Svelte: '#ff3e00',
   // Default fallback color
   default: '#586069',
