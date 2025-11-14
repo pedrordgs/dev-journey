@@ -37,9 +37,7 @@ export function TimelineItem({ repo, index }: TimelineItemProps) {
       observer.observe(currentRef)
     }
     return () => {
-      if (currentRef) {
-        observer.unobserve(currentRef)
-      }
+      observer.disconnect();
     }
   }, [isRight])
 
