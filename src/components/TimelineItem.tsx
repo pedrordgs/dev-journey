@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, forwardRef } from 'react'
 import { Repository, getLanguageColor } from '@/lib/github'
 import {
   Card,
@@ -13,6 +13,62 @@ interface TimelineItemProps {
   repo: Repository
   index: number
 }
+
+interface RepositoryCardProps {
+  repo: Repository
+}
+
+const RepositoryCard = forwardRef<HTMLDivElement, RepositoryCardProps>(
+  ({ repo }, ref) => {
+    return (
+      <Card ref={ref} className="opacity-0 hover:shadow-md transition-shadow">
+        <CardHeader className="pb-3">
+          <div className="flex items-start justify-between">
+            <div className="flex-1">
+              <CardTitle className="text-lg flex items-center gap-2">
+                <Code className="h-4 w-4" />
+                {repo.name}
+              </CardTitle>
+              {repo.description && (
+                <CardDescription className="mt-1">
+                  {repo.description}
+                </CardDescription>
+              )}
+            </div>
+            <a
+              href={repo.html_url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-muted-foreground hover:text-primary transition-colors"
+            >
+              <ExternalLink className="h-4 w-4" />
+            </a>
+          </div>
+        </CardHeader>
+        <CardContent className="pt-0">
+          <div className="flex items-center gap-4 text-sm text-muted-foreground">
+            <span>
+              Created: {new Date(repo.created_at).toLocaleDateString()}
+            </span>
+            {repo.language && (
+              <span className="flex items-center gap-1">
+                <div
+                  className="w-3 h-3 rounded-full"
+                  style={{
+                    backgroundColor: getLanguageColor(repo.language),
+                  }}
+                />
+                {repo.language}
+              </span>
+            )}
+          </div>
+        </CardContent>
+      </Card>
+    )
+  }
+)
+
+RepositoryCard.displayName = 'RepositoryCard'
 
 export function TimelineItem({ repo, index }: TimelineItemProps) {
   const isRight = index % 2 === 0
@@ -37,7 +93,7 @@ export function TimelineItem({ repo, index }: TimelineItemProps) {
       observer.observe(currentRef)
     }
     return () => {
-      observer.disconnect();
+      observer.disconnect()
     }
   }, [isRight])
 
@@ -49,109 +105,15 @@ export function TimelineItem({ repo, index }: TimelineItemProps) {
           year: 'numeric',
         })}
       </div>
-      {isRight ? (
-        <>
-          <div className="absolute left-1/2 top-3 w-80 transform translate-x-16">
-            <Card
-              ref={cardRef}
-              className="opacity-0 hover:shadow-md transition-shadow"
-            >
-              <CardHeader className="pb-3">
-                <div className="flex items-start justify-between">
-                  <div className="flex-1">
-                    <CardTitle className="text-lg flex items-center gap-2">
-                      <Code className="h-4 w-4" />
-                      {repo.name}
-                    </CardTitle>
-                    {repo.description && (
-                      <CardDescription className="mt-1">
-                        {repo.description}
-                      </CardDescription>
-                    )}
-                  </div>
-                  <a
-                    href={repo.html_url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-muted-foreground hover:text-primary transition-colors"
-                  >
-                    <ExternalLink className="h-4 w-4" />
-                  </a>
-                </div>
-              </CardHeader>
-              <CardContent className="pt-0">
-                <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                  <span>
-                    Created: {new Date(repo.created_at).toLocaleDateString()}
-                  </span>
-                  {repo.language && (
-                    <span className="flex items-center gap-1">
-                      <div
-                        className="w-3 h-3 rounded-full"
-                        style={{
-                          backgroundColor: getLanguageColor(repo.language),
-                        }}
-                      />
-                      {repo.language}
-                    </span>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        </>
-      ) : (
-        <>
-          <div className="absolute right-1/2 top-3 w-80 transform -translate-x-16">
-            <Card
-              ref={cardRef}
-              className="opacity-0 hover:shadow-md transition-shadow"
-            >
-              <CardHeader className="pb-3">
-                <div className="flex items-start justify-between">
-                  <div className="flex-1">
-                    <CardTitle className="text-lg flex items-center gap-2">
-                      <Code className="h-4 w-4" />
-                      {repo.name}
-                    </CardTitle>
-                    {repo.description && (
-                      <CardDescription className="mt-1">
-                        {repo.description}
-                      </CardDescription>
-                    )}
-                  </div>
-                  <a
-                    href={repo.html_url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-muted-foreground hover:text-primary transition-colors"
-                  >
-                    <ExternalLink className="h-4 w-4" />
-                  </a>
-                </div>
-              </CardHeader>
-              <CardContent className="pt-0">
-                <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                  <span>
-                    Created: {new Date(repo.created_at).toLocaleDateString()}
-                  </span>
-                  {repo.language && (
-                    <span className="flex items-center gap-1">
-                      <div
-                        className="w-3 h-3 rounded-full"
-                        style={{
-                          backgroundColor: getLanguageColor(repo.language),
-                        }}
-                      />
-                      {repo.language}
-                    </span>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        </>
-      )}
+      <div
+        className={
+          isRight
+            ? 'absolute left-1/2 top-3 w-80 transform translate-x-16'
+            : 'absolute right-1/2 top-3 w-80 transform -translate-x-16'
+        }
+      >
+        <RepositoryCard ref={cardRef} repo={repo} />
+      </div>
     </div>
   )
 }
