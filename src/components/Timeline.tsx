@@ -1,84 +1,24 @@
-import {
-  Repository,
-  getGroupedReposWithSortedYears,
-  getLanguageColor,
-} from '@/lib/github'
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card'
-import { Calendar, ExternalLink, Code } from 'lucide-react'
+import { Repository } from '@/lib/github'
+import { TimelineItem } from './TimelineItem'
 
 interface TimelineProps {
   repos: Repository[]
 }
 
 export function Timeline({ repos }: TimelineProps) {
-  const { reposByYear, sortedYears } = getGroupedReposWithSortedYears(repos)
+  const sortedRepos = [...repos].sort(
+    (a, b) =>
+      new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+  )
 
   return (
-    <div className="space-y-8">
-      {sortedYears.map((year) => (
-        <div key={year} className="relative">
-          <div className="flex items-center gap-4 mb-4">
-            <Calendar className="h-6 w-6 text-primary" />
-            <h2 className="text-2xl font-bold">{year}</h2>
-            <span className="text-muted-foreground">
-              {reposByYear[year].length} repositories
-            </span>
-          </div>
-          <div className="ml-10 space-y-4">
-            {reposByYear[year].map((repo) => (
-              <Card key={repo.id} className="hover:shadow-md transition-shadow">
-                <CardHeader className="pb-3">
-                  <div className="flex items-start justify-between">
-                    <div className="flex-1">
-                      <CardTitle className="text-lg flex items-center gap-2">
-                        <Code className="h-4 w-4" />
-                        {repo.name}
-                      </CardTitle>
-                      {repo.description && (
-                        <CardDescription className="mt-1">
-                          {repo.description}
-                        </CardDescription>
-                      )}
-                    </div>
-                    <a
-                      href={repo.html_url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-muted-foreground hover:text-primary transition-colors"
-                    >
-                      <ExternalLink className="h-4 w-4" />
-                    </a>
-                  </div>
-                </CardHeader>
-                <CardContent className="pt-0">
-                  <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                    <span>
-                      Created: {new Date(repo.created_at).toLocaleDateString()}
-                    </span>
-                    {repo.language && (
-                      <span className="flex items-center gap-1">
-                        <div
-                          className="w-3 h-3 rounded-full"
-                          style={{
-                            backgroundColor: getLanguageColor(repo.language),
-                          }}
-                        />
-                        {repo.language}
-                      </span>
-                    )}
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      ))}
+    <div className="relative flex justify-center pb-8">
+      <div className="absolute left-1/2 top-0 bottom-0 w-0.5 bg-border transform -translate-x-0.5"></div>
+      <div className="space-y-24 w-full max-w-4xl">
+        {sortedRepos.map((repo, index) => (
+          <TimelineItem key={repo.id} repo={repo} index={index} />
+        ))}
+      </div>
     </div>
   )
 }
