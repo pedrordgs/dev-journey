@@ -74,6 +74,7 @@ export function TimelineItem({ repo, index }: TimelineItemProps) {
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-muted-foreground hover:text-primary transition-colors"
+                    aria-label="View repository on GitHub"
                   >
                     <ExternalLink className="h-4 w-4" />
                   </a>
