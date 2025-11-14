@@ -42,7 +42,7 @@ export function TimelineItem({ repo, index }: TimelineItemProps) {
   }, [isRight])
 
   return (
-    <div className="relative h-32">
+    <div className="relative min-h-32">
       <div className="absolute left-1/2 top-0 z-10 transform -translate-x-1/2 text-sm font-medium text-primary bg-background px-2 py-1 rounded border">
         {new Date(repo.created_at).toLocaleDateString('en-US', {
           month: 'short',
