@@ -1,4 +1,8 @@
-import { Repository, getGroupedReposWithSortedYears } from '@/lib/github'
+import {
+  Repository,
+  getGroupedReposWithSortedYears,
+  getLanguageColor,
+} from '@/lib/github'
 import {
   Card,
   CardContent,
@@ -59,7 +63,12 @@ export function Timeline({ repos }: TimelineProps) {
                     </span>
                     {repo.language && (
                       <span className="flex items-center gap-1">
-                        <div className="w-3 h-3 rounded-full bg-primary" />
+                        <div
+                          className="w-3 h-3 rounded-full"
+                          style={{
+                            backgroundColor: getLanguageColor(repo.language),
+                          }}
+                        />
                         {repo.language}
                       </span>
                     )}

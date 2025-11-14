@@ -124,3 +124,33 @@ export function getGroupedReposWithSortedYears(repos: Repository[]): {
   )
   return { reposByYear, sortedYears }
 }
+
+// GitHub language colors mapping
+export const LANGUAGE_COLORS: Record<string, string> = {
+  JavaScript: '#f1e05a',
+  TypeScript: '#3178c6',
+  Python: '#3572A5',
+  Java: '#ed8c33',
+  'C++': '#f34b7d',
+  C: '#555555',
+  'C#': '#239120',
+  PHP: '#4F5D95',
+  Ruby: '#701516',
+  Go: '#00ADD8',
+  Rust: '#dea584',
+  Swift: '#ffac45',
+  Kotlin: '#A97BFF',
+  Dart: '#00B4AB',
+  HTML: '#e34c26',
+  CSS: '#1572B6',
+  Shell: '#89e051',
+  Dockerfile: '#2496ED',
+  Svelte: '#ff3e00',
+  // Default fallback color
+  default: '#586069',
+}
+
+export function getLanguageColor(language: string | null): string {
+  if (!language) return LANGUAGE_COLORS.default
+  return LANGUAGE_COLORS[language] || LANGUAGE_COLORS.default
+}
