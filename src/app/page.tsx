@@ -3,25 +3,30 @@
 import { useState } from 'react'
 import { UsernameInput } from '@/components/UsernameInput'
 import { Timeline } from '@/components/Timeline'
-import { RepoSummary } from '@/components/RepoSummary'
+import { Sidebar } from '@/components/Sidebar'
 import { Alert, AlertDescription } from '@/components/ui/alert'
-import { fetchUserRepos } from '@/lib/github'
-import { Repository } from '@/lib/github'
+import { fetchUserRepos, fetchUser } from '@/lib/github'
+import { Repository, User } from '@/lib/github'
 import { AlertCircle, Github } from 'lucide-react'
 
 export default function Home() {
   const [repos, setRepos] = useState<Repository[]>([])
+  const [user, setUser] = useState<User | null>(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const [currentUsername, setCurrentUsername] = useState<string>('')
 
   const handleUsernameSubmit = async (username: string) => {
     setLoading(true)
     setError(null)
-    setCurrentUsername(username)
+    setUser(null)
+    setRepos([])
 
     try {
-      const userRepos = await fetchUserRepos(username)
+      const [userData, userRepos] = await Promise.all([
+        fetchUser(username),
+        fetchUserRepos(username),
+      ])
+      setUser(userData)
       setRepos(userRepos)
     } catch (err) {
       if (err && typeof err === 'object' && 'status' in err) {
@@ -33,12 +38,13 @@ export default function Home() {
         } else if (status === 403) {
           setError('API rate limit exceeded. Please try again later.')
         } else {
-          setError('Failed to fetch repositories. Please try again.')
+          setError('Failed to fetch data. Please try again.')
         }
       } else {
         setError('An unexpected error occurred. Please try again.')
       }
       setRepos([])
+      setUser(null)
     } finally {
       setLoading(false)
     }
@@ -71,21 +77,19 @@ export default function Home() {
           </div>
         )}
 
-        {repos.length > 0 && (
-          <div className="space-y-8">
-            <div className="text-center">
-              <h2 className="text-2xl font-semibold mb-2">
-                {currentUsername}&apos;s Repository Timeline
-              </h2>
-              <p className="text-muted-foreground">
-                {repos.length} repositories found
-              </p>
+        {user && repos.length > 0 && (
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <div className="lg:col-span-4 xl:col-span-3">
+              <Sidebar user={user} repos={repos} />
             </div>
 
-            <RepoSummary repos={repos} />
-
-            <div>
-              <h3 className="text-xl font-semibold mb-6">Timeline</h3>
+            <div className="lg:col-span-8 xl:col-span-9">
+              <div className="mb-6">
+                <h2 className="text-2xl font-semibold mb-2">Timeline</h2>
+                <p className="text-muted-foreground">
+                  A chronological view of {user.login}&apos;s repositories
+                </p>
+              </div>
               <Timeline repos={repos} />
             </div>
           </div>

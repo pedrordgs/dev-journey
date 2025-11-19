@@ -22,6 +22,11 @@ export interface User {
   avatar_url: string
   html_url: string
   name: string | null
+  bio: string | null
+  location: string | null
+  blog: string | null
+  followers: number
+  following: number
   public_repos: number
 }
 
@@ -38,6 +43,11 @@ function isUser(data: unknown): data is User {
     typeof d.avatar_url === 'string' &&
     typeof d.html_url === 'string' &&
     (typeof d.name === 'string' || d.name === null) &&
+    (typeof d.bio === 'string' || d.bio === null) &&
+    (typeof d.location === 'string' || d.location === null) &&
+    (typeof d.blog === 'string' || d.blog === null) &&
+    typeof d.followers === 'number' &&
+    typeof d.following === 'number' &&
     typeof d.public_repos === 'number'
   )
 }
