@@ -20,8 +20,8 @@ import {
   User as UserIcon,
   MapPin,
   Link as LinkIcon,
-  Github,
 } from 'lucide-react'
+import { GithubIcon } from '@/components/icons'
 import {
   XAxis,
   YAxis,
@@ -88,7 +88,7 @@ export function Sidebar({ user, repos }: SidebarProps) {
   )
 
   return (
-    <div className="space-y-6 sticky top-4 max-h-[calc(100vh-2rem)] overflow-y-auto">
+    <div className="space-y-6 sticky top-4 max-h-[calc(100vh-2rem)] overflow-y-auto no-scrollbar">
       {/* User Info Card */}
       <Card>
         <CardHeader className="flex flex-row items-center gap-4 pb-2">
@@ -149,7 +149,7 @@ export function Sidebar({ user, repos }: SidebarProps) {
             </div>
             <Button className="w-full mt-4" asChild>
               <a href={user.html_url} target="_blank" rel="noopener noreferrer">
-                <Github className="mr-2 h-4 w-4" />
+                <GithubIcon className="mr-2 h-4 w-4" />
                 View on GitHub
               </a>
             </Button>
@@ -267,11 +267,7 @@ export function Sidebar({ user, repos }: SidebarProps) {
                   dataKey="value"
                 >
                   {pieData.map((entry) => (
-                    <Cell
-                      key={entry.name}
-                      fill={entry.fill}
-                      strokeWidth={0}
-                    />
+                    <Cell key={entry.name} fill={entry.fill} strokeWidth={0} />
                   ))}
                 </Pie>
                 <Tooltip
