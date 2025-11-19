@@ -87,7 +87,7 @@ export function Sidebar({ user, repos }: SidebarProps) {
   )
 
   return (
-    <div className="space-y-6 sticky top-4">
+    <div className="space-y-6 sticky top-4 max-h-[calc(100vh-2rem)] overflow-y-auto">
       {/* User Info Card */}
       <Card>
         <CardHeader className="flex flex-row items-center gap-4 pb-2">
