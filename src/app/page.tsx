@@ -7,7 +7,8 @@ import { Sidebar } from '@/components/Sidebar'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { fetchUserRepos, fetchUser } from '@/lib/github'
 import { Repository, User } from '@/lib/github'
-import { AlertCircle, Github } from 'lucide-react'
+import { AlertCircle } from 'lucide-react'
+import { GithubIcon } from '@/components/icons'
 
 export default function Home() {
   const [repos, setRepos] = useState<Repository[]>([])
@@ -55,7 +56,7 @@ export default function Home() {
       <div className="container mx-auto px-4 py-8">
         <div className="text-center mb-8">
           <div className="flex items-center justify-center gap-2 mb-4">
-            <Github className="h-8 w-8" />
+            <GithubIcon className="h-8 w-8" />
             <h1 className="text-4xl font-bold">GitHub Timeline</h1>
           </div>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">

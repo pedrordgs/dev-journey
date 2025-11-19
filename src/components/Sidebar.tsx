@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useMemo, useId } from 'react'
 import {
   User,
   Repository,
@@ -13,6 +13,7 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Button } from '@/components/ui/button'
 import {
   BarChart3,
   Code2,
@@ -20,6 +21,18 @@ import {
   MapPin,
   Link as LinkIcon,
 } from 'lucide-react'
+import { GithubIcon } from '@/components/icons'
+import {
+  XAxis,
+  YAxis,
+  Tooltip,
+  ResponsiveContainer,
+  PieChart,
+  Pie,
+  Cell,
+  AreaChart,
+  Area,
+} from 'recharts'
 
 interface SidebarProps {
   user: User
@@ -27,6 +40,7 @@ interface SidebarProps {
 }
 
 export function Sidebar({ user, repos }: SidebarProps) {
+  const gradientId = useId()
   const { reposByYear, sortedYears } = getGroupedReposWithSortedYears(repos)
   const totalRepos = repos.length
 
@@ -52,8 +66,29 @@ export function Sidebar({ user, repos }: SidebarProps) {
     [languageStats]
   )
 
+  const chartData = useMemo(
+    () =>
+      sortedYears
+        .map((year) => ({
+          year,
+          count: reposByYear[year].length,
+        }))
+        .reverse(),
+    [reposByYear, sortedYears]
+  )
+
+  const pieData = useMemo(
+    () =>
+      topLanguages.map(([language, count]) => ({
+        name: language,
+        value: count,
+        fill: getLanguageColor(language),
+      })),
+    [topLanguages]
+  )
+
   return (
-    <div className="space-y-6 sticky top-4">
+    <div className="space-y-6 sticky top-4 max-h-[calc(100vh-2rem)] overflow-y-auto no-scrollbar">
       {/* User Info Card */}
       <Card>
         <CardHeader className="flex flex-row items-center gap-4 pb-2">
@@ -112,6 +147,12 @@ export function Sidebar({ user, repos }: SidebarProps) {
                 <span>following</span>
               </div>
             </div>
+            <Button className="w-full mt-4" asChild>
+              <a href={user.html_url} target="_blank" rel="noopener noreferrer">
+                <GithubIcon className="mr-2 h-4 w-4" />
+                View on GitHub
+              </a>
+            </Button>
           </div>
         </CardContent>
       </Card>
@@ -131,15 +172,74 @@ export function Sidebar({ user, repos }: SidebarProps) {
           </div>
           <div>
             <h4 className="font-medium mb-2 text-sm">Repositories per Year</h4>
-            <div className="space-y-1 max-h-48 overflow-y-auto pr-2">
-              {sortedYears.map((year) => (
-                <div key={year} className="flex justify-between text-sm">
-                  <span>{year}</span>
-                  <span className="font-medium">
-                    {reposByYear[year].length}
-                  </span>
+            <div className="h-[200px] w-full">
+              {chartData.length === 0 ? (
+                <div className="flex items-center justify-center h-full text-muted-foreground text-sm">
+                  No repository data available for chart.
                 </div>
-              ))}
+              ) : (
+                <ResponsiveContainer width="100%" height="100%">
+                  <AreaChart
+                    data={chartData}
+                    margin={{ top: 10, right: 10, left: 0, bottom: 0 }}
+                  >
+                    <defs>
+                      <linearGradient
+                        id={gradientId}
+                        x1="0"
+                        y1="0"
+                        x2="0"
+                        y2="1"
+                      >
+                        <stop
+                          offset="5%"
+                          stopColor="hsl(var(--primary))"
+                          stopOpacity={0.8}
+                        />
+                        <stop
+                          offset="95%"
+                          stopColor="hsl(var(--primary))"
+                          stopOpacity={0}
+                        />
+                      </linearGradient>
+                    </defs>
+                    <XAxis
+                      dataKey="year"
+                      fontSize={12}
+                      tickLine={false}
+                      axisLine={false}
+                    />
+                    <YAxis
+                      fontSize={12}
+                      tickLine={false}
+                      axisLine={false}
+                      allowDecimals={false}
+                      width={30}
+                    />
+                    <Tooltip
+                      contentStyle={{
+                        backgroundColor: 'hsl(var(--popover))',
+                        borderRadius: '8px',
+                        border: '1px solid hsl(var(--border))',
+                      }}
+                      itemStyle={{
+                        color: 'hsl(var(--popover-foreground))',
+                      }}
+                      cursor={{
+                        stroke: 'hsl(var(--muted))',
+                        strokeWidth: 2,
+                      }}
+                    />
+                    <Area
+                      type="monotone"
+                      dataKey="count"
+                      stroke="hsl(var(--primary))"
+                      fillOpacity={1}
+                      fill={`url(#${gradientId})`}
+                    />
+                  </AreaChart>
+                </ResponsiveContainer>
+              )}
             </div>
           </div>
         </CardContent>
@@ -154,20 +254,50 @@ export function Sidebar({ user, repos }: SidebarProps) {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="space-y-3">
-            {topLanguages.map(([language, count]) => (
-              <div key={language} className="flex items-center justify-between">
+          <div className="h-[200px] w-full">
+            <ResponsiveContainer width="100%" height="100%">
+              <PieChart>
+                <Pie
+                  data={pieData}
+                  cx="50%"
+                  cy="50%"
+                  innerRadius={60}
+                  outerRadius={80}
+                  paddingAngle={2}
+                  dataKey="value"
+                >
+                  {pieData.map((entry) => (
+                    <Cell key={entry.name} fill={entry.fill} strokeWidth={0} />
+                  ))}
+                </Pie>
+                <Tooltip
+                  contentStyle={{
+                    backgroundColor: 'hsl(var(--popover))',
+                    borderRadius: '8px',
+                    border: '1px solid hsl(var(--border))',
+                  }}
+                  itemStyle={{ color: 'hsl(var(--popover-foreground))' }}
+                />
+              </PieChart>
+            </ResponsiveContainer>
+          </div>
+          <div className="mt-4 space-y-2">
+            {pieData.map((entry) => (
+              <div
+                key={entry.name}
+                className="flex items-center justify-between text-sm"
+              >
                 <div className="flex items-center gap-2">
                   <div
                     className="w-3 h-3 rounded-full"
-                    style={{ backgroundColor: getLanguageColor(language) }}
+                    style={{ backgroundColor: entry.fill }}
                   />
-                  <span className="text-sm">{language}</span>
+                  <span>{entry.name}</span>
                 </div>
-                <span className="text-sm font-medium">{count}</span>
+                <span className="font-medium">{entry.value}</span>
               </div>
             ))}
-            {topLanguages.length === 0 && (
+            {pieData.length === 0 && (
               <p className="text-sm text-muted-foreground">
                 No language data available
               </p>
