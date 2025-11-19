@@ -259,9 +259,9 @@ export function Sidebar({ user, repos }: SidebarProps) {
                   paddingAngle={2}
                   dataKey="value"
                 >
-                  {pieData.map((entry, index) => (
+                  {pieData.map((entry) => (
                     <Cell
-                      key={`cell-${index}`}
+                      key={entry.name}
                       fill={entry.fill}
                       strokeWidth={0}
                     />
