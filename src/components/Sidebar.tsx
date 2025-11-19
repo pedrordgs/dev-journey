@@ -1,3 +1,4 @@
+import { useMemo } from 'react'
 import {
   User,
   Repository,
@@ -42,32 +43,48 @@ export function Sidebar({ user, repos }: SidebarProps) {
   const { reposByYear, sortedYears } = getGroupedReposWithSortedYears(repos)
   const totalRepos = repos.length
 
-  const languageStats = repos.reduce(
-    (acc, repo) => {
-      if (repo.language) {
-        acc[repo.language] = (acc[repo.language] || 0) + 1
-      }
-      return acc
-    },
-    {} as Record<string, number>
+  const languageStats = useMemo(
+    () =>
+      repos.reduce(
+        (acc, repo) => {
+          if (repo.language) {
+            acc[repo.language] = (acc[repo.language] || 0) + 1
+          }
+          return acc
+        },
+        {} as Record<string, number>
+      ),
+    [repos]
   )
 
-  const topLanguages = Object.entries(languageStats)
-    .sort(([, a], [, b]) => b - a)
-    .slice(0, 5)
+  const topLanguages = useMemo(
+    () =>
+      Object.entries(languageStats)
+        .sort(([, a], [, b]) => b - a)
+        .slice(0, 5),
+    [languageStats]
+  )
 
-  const chartData = sortedYears
-    .map((year) => ({
-      year,
-      count: reposByYear[year].length,
-    }))
-    .reverse()
+  const chartData = useMemo(
+    () =>
+      sortedYears
+        .map((year) => ({
+          year,
+          count: reposByYear[year].length,
+        }))
+        .reverse(),
+    [reposByYear, sortedYears]
+  )
 
-  const pieData = topLanguages.map(([language, count]) => ({
-    name: language,
-    value: count,
-    fill: getLanguageColor(language),
-  }))
+  const pieData = useMemo(
+    () =>
+      topLanguages.map(([language, count]) => ({
+        name: language,
+        value: count,
+        fill: getLanguageColor(language),
+      })),
+    [topLanguages]
+  )
 
   return (
     <div className="space-y-6 sticky top-4">
