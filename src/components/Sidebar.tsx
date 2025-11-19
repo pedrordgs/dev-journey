@@ -1,10 +1,5 @@
 import { useMemo, useId } from 'react'
-import {
-  User,
-  Repository,
-  getGroupedReposWithSortedYears,
-  getLanguageColor,
-} from '@/lib/github'
+import { User, Repository, getGroupedReposWithSortedYears } from '@/lib/github'
 import {
   Card,
   CardContent,
@@ -16,7 +11,6 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import {
   BarChart3,
-  Code2,
   User as UserIcon,
   MapPin,
   Link as LinkIcon,
@@ -27,9 +21,6 @@ import {
   YAxis,
   Tooltip,
   ResponsiveContainer,
-  PieChart,
-  Pie,
-  Cell,
   AreaChart,
   Area,
 } from 'recharts'
@@ -44,47 +35,15 @@ export function Sidebar({ user, repos }: SidebarProps) {
   const { reposByYear, sortedYears } = getGroupedReposWithSortedYears(repos)
   const totalRepos = repos.length
 
-  const languageStats = useMemo(
-    () =>
-      repos.reduce(
-        (acc, repo) => {
-          if (repo.language) {
-            acc[repo.language] = (acc[repo.language] || 0) + 1
-          }
-          return acc
-        },
-        {} as Record<string, number>
-      ),
-    [repos]
-  )
-
-  const topLanguages = useMemo(
-    () =>
-      Object.entries(languageStats)
-        .sort(([, a], [, b]) => b - a)
-        .slice(0, 5),
-    [languageStats]
-  )
-
   const chartData = useMemo(
     () =>
       sortedYears
         .map((year) => ({
           year,
-          count: reposByYear[year].length,
+          Repositories: reposByYear[year].length,
         }))
         .reverse(),
     [reposByYear, sortedYears]
-  )
-
-  const pieData = useMemo(
-    () =>
-      topLanguages.map(([language, count]) => ({
-        name: language,
-        value: count,
-        fill: getLanguageColor(language),
-      })),
-    [topLanguages]
   )
 
   return (
@@ -232,7 +191,7 @@ export function Sidebar({ user, repos }: SidebarProps) {
                     />
                     <Area
                       type="monotone"
-                      dataKey="count"
+                      dataKey="Repositories"
                       stroke="hsl(var(--primary))"
                       fillOpacity={1}
                       fill={`url(#${gradientId})`}
@@ -241,67 +200,6 @@ export function Sidebar({ user, repos }: SidebarProps) {
                 </ResponsiveContainer>
               )}
             </div>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Top Languages Card */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-lg">
-            <Code2 className="h-5 w-5" />
-            Top Languages
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="h-[200px] w-full">
-            <ResponsiveContainer width="100%" height="100%">
-              <PieChart>
-                <Pie
-                  data={pieData}
-                  cx="50%"
-                  cy="50%"
-                  innerRadius={60}
-                  outerRadius={80}
-                  paddingAngle={2}
-                  dataKey="value"
-                >
-                  {pieData.map((entry) => (
-                    <Cell key={entry.name} fill={entry.fill} strokeWidth={0} />
-                  ))}
-                </Pie>
-                <Tooltip
-                  contentStyle={{
-                    backgroundColor: 'hsl(var(--popover))',
-                    borderRadius: '8px',
-                    border: '1px solid hsl(var(--border))',
-                  }}
-                  itemStyle={{ color: 'hsl(var(--popover-foreground))' }}
-                />
-              </PieChart>
-            </ResponsiveContainer>
-          </div>
-          <div className="mt-4 space-y-2">
-            {pieData.map((entry) => (
-              <div
-                key={entry.name}
-                className="flex items-center justify-between text-sm"
-              >
-                <div className="flex items-center gap-2">
-                  <div
-                    className="w-3 h-3 rounded-full"
-                    style={{ backgroundColor: entry.fill }}
-                  />
-                  <span>{entry.name}</span>
-                </div>
-                <span className="font-medium">{entry.value}</span>
-              </div>
-            ))}
-            {pieData.length === 0 && (
-              <p className="text-sm text-muted-foreground">
-                No language data available
-              </p>
-            )}
           </div>
         </CardContent>
       </Card>
