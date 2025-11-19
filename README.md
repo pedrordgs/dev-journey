@@ -1,6 +1,6 @@
 # GitHub Timeline
 
-[![CI](https://github.com/pmr/github-timeline/actions/workflows/ci.yml/badge.svg)](https://github.com/pmr/github-timeline/actions/workflows/ci.yml)
+[![CI](https://github.com/pedrordgs/github-timeline/actions/workflows/ci.yml/badge.svg)](https://github.com/pedrordgs/github-timeline/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 A beautiful, responsive web application that visualizes a GitHub user's public repository timeline. Perfect for showcasing your development journey to prospective employers or sharing your coding history.
@@ -32,7 +32,7 @@ _Enter a GitHub username and click "Generate Timeline" to see the magic happen!_
 1. **Clone the repository**
 
    ```bash
-   git clone https://github.com/pmr/github-timeline.git
+   git clone https://github.com/pedrordgs/github-timeline.git
    cd github-timeline
    ```
 
