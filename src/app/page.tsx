@@ -1,103 +1,100 @@
 'use client'
 
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { UsernameInput } from '@/components/UsernameInput'
-import { Timeline } from '@/components/Timeline'
-import { Sidebar } from '@/components/Sidebar'
-import { Alert, AlertDescription } from '@/components/ui/alert'
-import { fetchUserRepos, fetchUser } from '@/lib/github'
-import { Repository, User } from '@/lib/github'
-import { AlertCircle } from 'lucide-react'
 import { GithubIcon } from '@/components/icons'
-import { BackToTop } from '@/components/BackToTop'
+import { History, GitBranch, Star } from 'lucide-react'
 
 export default function Home() {
-  const [repos, setRepos] = useState<Repository[]>([])
-  const [user, setUser] = useState<User | null>(null)
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
+  const router = useRouter()
+  const [isNavigating, setIsNavigating] = useState(false)
 
-  const handleUsernameSubmit = async (username: string) => {
-    setLoading(true)
-    setError(null)
-    setUser(null)
-    setRepos([])
-
-    try {
-      const [userData, userRepos] = await Promise.all([
-        fetchUser(username),
-        fetchUserRepos(username),
-      ])
-      setUser(userData)
-      setRepos(userRepos)
-    } catch (err) {
-      if (err && typeof err === 'object' && 'status' in err) {
-        const status = (err as { status: number }).status
-        if (status === 404) {
-          setError(
-            `User "${username}" not found. Please check the username and try again.`
-          )
-        } else if (status === 403) {
-          setError('API rate limit exceeded. Please try again later.')
-        } else {
-          setError('Failed to fetch data. Please try again.')
-        }
-      } else {
-        setError('An unexpected error occurred. Please try again.')
-      }
-      setRepos([])
-      setUser(null)
-    } finally {
-      setLoading(false)
-    }
+  const handleUsernameSubmit = (username: string) => {
+    setIsNavigating(true)
+    router.push(`/timeline/${username}`)
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="container mx-auto px-4 py-8">
-        <div className="text-center mb-8">
-          <div className="flex items-center justify-center gap-2 mb-4">
-            <GithubIcon className="h-8 w-8" />
-            <h1 className="text-4xl font-bold">GitHub Timeline</h1>
+    <div className="min-h-screen bg-background flex flex-col relative overflow-hidden">
+      {/* Abstract Background Elements */}
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
+        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/20 rounded-full blur-[100px] animate-pulse" />
+        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-secondary/30 rounded-full blur-[100px] animate-pulse delay-1000" />
+      </div>
+
+      <main className="flex-1 flex flex-col items-center justify-center container mx-auto px-4 py-16 text-center">
+        <div className="mb-8 animate-in fade-in slide-in-from-bottom-4 duration-1000">
+          <div className="bg-card/50 backdrop-blur-xl p-4 rounded-2xl inline-block shadow-lg border border-border/50 mb-6">
+            <GithubIcon className="h-16 w-16 mx-auto" />
           </div>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Visualize your GitHub repository timeline. Enter a username to see
-            their development journey.
+          <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-6 bg-gradient-to-r from-foreground to-foreground/60 bg-clip-text text-transparent">
+            GitHub Timeline
+          </h1>
+          <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+            Visualize your development journey.
+            <br className="hidden md:block" />
+            Turn your repositories into a beautiful, chronological story.
           </p>
         </div>
 
-        <div className="flex justify-center mb-8">
-          <UsernameInput onSubmit={handleUsernameSubmit} loading={loading} />
+        <div className="w-full max-w-md mx-auto mb-16 animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-200">
+          <div className="bg-card p-6 rounded-xl shadow-xl border border-border">
+            <UsernameInput
+              onSubmit={handleUsernameSubmit}
+              loading={isNavigating}
+            />
+            <p className="text-xs text-muted-foreground mt-4">
+              Try entering your username or a friend&apos;s to see their
+              timeline.
+            </p>
+          </div>
         </div>
 
-        {error && (
-          <div className="max-w-2xl mx-auto mb-8">
-            <Alert variant="destructive">
-              <AlertCircle className="h-4 w-4" />
-              <AlertDescription>{error}</AlertDescription>
-            </Alert>
-          </div>
-        )}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-300">
+          <FeatureCard
+            icon={<History className="w-6 h-6" />}
+            title="Chronological View"
+            description="See your repositories organized by date, giving you a clear view of your history."
+          />
+          <FeatureCard
+            icon={<GitBranch className="w-6 h-6" />}
+            title="Language Stats"
+            description="Analyze your most used languages and see how your tech stack evolved."
+          />
+          <FeatureCard
+            icon={<Star className="w-6 h-6" />}
+            title="Visual Insights"
+            description="Get a beautiful overview of your work with charts and timeline visualizations."
+          />
+        </div>
+      </main>
 
-        {user && repos.length > 0 && (
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-            <div className="lg:col-span-4 xl:col-span-3">
-              <Sidebar user={user} repos={repos} />
-            </div>
+      <footer className="py-6 text-center text-sm text-muted-foreground border-t border-border/40 bg-background/50 backdrop-blur-sm">
+        <p>
+          © {new Date().getFullYear()} GitHub Timeline. Built for developers.
+        </p>
+      </footer>
+    </div>
+  )
+}
 
-            <div className="lg:col-span-8 xl:col-span-9">
-              <div className="mb-6">
-                <h2 className="text-2xl font-semibold mb-2">Timeline</h2>
-                <p className="text-muted-foreground">
-                  A chronological view of {user.login}&apos;s repositories
-                </p>
-              </div>
-              <Timeline repos={repos} />
-            </div>
-          </div>
-        )}
+function FeatureCard({
+  icon,
+  title,
+  description,
+}: {
+  icon: React.ReactNode
+  title: string
+  description: string
+}) {
+  return (
+    <div className="flex flex-col items-center p-6 bg-card/50 backdrop-blur-sm border border-border/50 rounded-xl hover:bg-accent/50 transition-colors">
+      <div className="mb-4 p-3 bg-background rounded-full shadow-sm text-primary">
+        {icon}
       </div>
-      <BackToTop />
+      <h3 className="text-lg font-semibold mb-2">{title}</h3>
+      <p className="text-sm text-muted-foreground">{description}</p>
     </div>
   )
 }

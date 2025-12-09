@@ -25,7 +25,7 @@ const RepositoryCard = forwardRef<HTMLDivElement, RepositoryCardProps>(
     return (
       <Card
         ref={ref}
-        className="opacity-0 hover:shadow-md transition-shadow max-h-36 overflow-y-auto"
+        className="opacity-0 hover:shadow-md transition-shadow max-h-36 overflow-hidden"
       >
         <CardHeader className="pb-3">
           <div className="flex items-start justify-between gap-2">
@@ -129,7 +129,11 @@ export function TimelineItem({
   year,
 }: TimelineItemProps) {
   return (
-    <div className="relative scroll-mt-24" data-year={year} id={`monthYear-${monthYear.replace(' ', '-').toLowerCase()}`}>
+    <div
+      className="relative scroll-mt-24"
+      data-year={year}
+      id={`monthYear-${monthYear.replace(' ', '-').toLowerCase()}`}
+    >
       {/* Month/Year checkpoint - shown only once per group */}
       <div className="absolute left-1/2 top-0 z-10 transform -translate-x-1/2 text-sm font-medium text-primary bg-background px-2 py-1 rounded border">
         {monthYear}
