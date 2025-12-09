@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { UsernameInput } from '@/components/UsernameInput'
 import { GithubIcon } from '@/components/icons'
@@ -9,6 +9,13 @@ import { History, GitBranch, Star } from 'lucide-react'
 export default function Home() {
   const router = useRouter()
   const [isNavigating, setIsNavigating] = useState(false)
+
+  useEffect(() => {
+    // Reset navigating state when component unmounts or remounts
+    return () => {
+      setIsNavigating(false)
+    }
+  }, [])
 
   const handleUsernameSubmit = (username: string) => {
     setIsNavigating(true)
