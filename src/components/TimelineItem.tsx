@@ -25,7 +25,7 @@ const RepositoryCard = forwardRef<HTMLDivElement, RepositoryCardProps>(
     return (
       <Card
         ref={ref}
-        className="opacity-0 hover:shadow-md transition-shadow max-h-36 overflow-hidden"
+        className="opacity-0 hover:shadow-md transition-shadow max-h-36 overflow-y-auto"
       >
         <CardHeader className="pb-3">
           <div className="flex items-start justify-between gap-2">
