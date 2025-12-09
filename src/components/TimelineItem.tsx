@@ -129,7 +129,7 @@ export function TimelineItem({
   year,
 }: TimelineItemProps) {
   return (
-    <div className="relative scroll-mt-24" data-year={year} id={`year-${year}`}>
+    <div className="relative scroll-mt-24" data-year={year} id={`monthYear-${monthYear.replace(' ', '-').toLowerCase()}`}>
       {/* Month/Year checkpoint - shown only once per group */}
       <div className="absolute left-1/2 top-0 z-10 transform -translate-x-1/2 text-sm font-medium text-primary bg-background px-2 py-1 rounded border">
         {monthYear}
