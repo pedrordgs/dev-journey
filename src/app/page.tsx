@@ -9,7 +9,7 @@ import { History, GitBranch, Star } from 'lucide-react'
 export default function Home() {
   const router = useRouter()
   const [isNavigating, setIsNavigating] = useState(false)
-  const timeoutRef = useRef<NodeJS.Timeout>()
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null)
 
   useEffect(() => {
     // Cleanup timeout on unmount
