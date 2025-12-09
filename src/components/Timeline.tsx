@@ -33,9 +33,21 @@ export function Timeline({ repos }: TimelineProps) {
     monthYearMap.get(monthYear)!.push(repo)
   })
 
-  // Convert map to array while maintaining order and tracking cumulative index
+  // Convert map to array and explicitly sort by chronological order
+  const monthYearArray = Array.from(monthYearMap.entries()).map(([monthYear, repos]) => ({
+    monthYear,
+    repos,
+  }))
+  // Sort by date descending (same as sortedRepos)
+  monthYearArray.sort((a, b) => {
+    // Parse monthYear strings like "Dec 2022" into Date objects
+    const aDate = new Date(a.monthYear + ' 1')
+    const bDate = new Date(b.monthYear + ' 1')
+    return bDate.getTime() - aDate.getTime()
+  })
+  // Build groupedRepos with startIndex
   let cumulativeIndex = 0
-  monthYearMap.forEach((repos, monthYear) => {
+  monthYearArray.forEach(({ monthYear, repos }) => {
     groupedRepos.push({ monthYear, repos, startIndex: cumulativeIndex })
     cumulativeIndex += repos.length
   })
