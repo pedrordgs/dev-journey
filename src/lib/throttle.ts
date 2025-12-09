@@ -32,7 +32,7 @@ export function throttle<T extends (...args: unknown[]) => unknown>(
           lastRan = Date.now()
           timeoutId = null
         },
-        delay - (now - lastRan)
+        Math.max(0, delay - (now - lastRan))
       )
     }
   }
