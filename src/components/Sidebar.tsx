@@ -170,8 +170,8 @@ export function Sidebar({ user, repos }: SidebarProps) {
                       tick={{ cursor: 'pointer' }}
                       onClick={(data) => {
                         if (data && data.value) {
-                          const yearElement = document.getElementById(
-                            `year-${data.value}`
+                          const yearElement = document.querySelector(
+                            `[data-year="${data.value}"]`
                           )
                           if (yearElement) {
                             yearElement.scrollIntoView({
