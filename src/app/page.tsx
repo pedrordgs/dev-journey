@@ -9,6 +9,7 @@ import { fetchUserRepos, fetchUser } from '@/lib/github'
 import { Repository, User } from '@/lib/github'
 import { AlertCircle } from 'lucide-react'
 import { GithubIcon } from '@/components/icons'
+import { BackToTop } from '@/components/BackToTop'
 
 export default function Home() {
   const [repos, setRepos] = useState<Repository[]>([])
@@ -96,6 +97,7 @@ export default function Home() {
           </div>
         )}
       </div>
+      <BackToTop />
     </div>
   )
 }

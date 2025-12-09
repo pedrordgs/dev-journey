@@ -167,6 +167,20 @@ export function Sidebar({ user, repos }: SidebarProps) {
                       fontSize={12}
                       tickLine={false}
                       axisLine={false}
+                      tick={{ cursor: 'pointer' }}
+                      onClick={(data) => {
+                        if (data && data.value) {
+                          const yearElement = document.querySelector(
+                            `[data-year="${data.value}"]`
+                          )
+                          if (yearElement) {
+                            yearElement.scrollIntoView({
+                              behavior: 'smooth',
+                              block: 'start',
+                            })
+                          }
+                        }
+                      }}
                     />
                     <YAxis
                       fontSize={12}
