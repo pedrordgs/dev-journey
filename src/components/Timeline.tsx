@@ -57,8 +57,11 @@ export function Timeline({ repos }: TimelineProps) {
       <div className="absolute left-1/2 top-0 bottom-0 w-0.5 bg-border transform -translate-x-0.5"></div>
       <div className="space-y-24 w-full max-w-4xl">
         {groupedRepos.map((group) => {
-          // Extract year from monthYear (e.g., "Dec 2022" -> "2022")
-          const year = group.monthYear.split(' ')[1]
+          // Extract year directly from the first repository in the group
+          const year =
+            group.repos.length > 0
+              ? new Date(group.repos[0].created_at).getFullYear().toString()
+              : ''
           return (
             <TimelineItem
               key={group.monthYear}
