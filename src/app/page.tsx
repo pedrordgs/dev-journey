@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { UsernameInput } from '@/components/UsernameInput'
 import { GithubIcon } from '@/components/icons'
@@ -9,17 +9,29 @@ import { History, GitBranch, Star } from 'lucide-react'
 export default function Home() {
   const router = useRouter()
   const [isNavigating, setIsNavigating] = useState(false)
+  const timeoutRef = useRef<NodeJS.Timeout>()
 
   useEffect(() => {
-    // Reset navigating state when component unmounts or remounts
+    // Cleanup timeout on unmount
     return () => {
-      setIsNavigating(false)
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current)
+      }
     }
   }, [])
 
   const handleUsernameSubmit = (username: string) => {
     setIsNavigating(true)
     router.push(`/timeline/${username}`)
+    
+    // Reset loading state after a timeout in case navigation fails
+    // If navigation succeeds, component will unmount before timeout fires
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current)
+    }
+    timeoutRef.current = setTimeout(() => {
+      setIsNavigating(false)
+    }, 5000)
   }
 
   return (
