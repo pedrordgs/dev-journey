@@ -4,13 +4,15 @@ import { useState, useEffect } from 'react'
 import { ArrowUp } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
+const SCROLL_THRESHOLD = 300;
+
 export function BackToTop() {
   const [isVisible, setIsVisible] = useState(false)
 
   useEffect(() => {
     const toggleVisibility = () => {
       // Show button when page is scrolled down 300px
-      if (window.scrollY > 300) {
+      if (window.scrollY > SCROLL_THRESHOLD) {
         setIsVisible(true)
       } else {
         setIsVisible(false)
