@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation'
 import { DevJourneyIcon } from '@/components/icons'
 import { Search } from 'lucide-react'
 import { Input } from '@/components/ui/input'
+import { ModeToggle } from '@/components/mode-toggle'
 
 export function Header() {
   const router = useRouter()
@@ -32,17 +33,18 @@ export function Header() {
           </Link>
         </div>
 
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center gap-4">
           <form onSubmit={handleSearch} className="relative">
             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
             <Input
               type="search"
               placeholder="Search username..."
-              className="h-9 w-[200px] pl-9 bg-muted/50 focus:bg-background transition-all focus:w-[250px] md:w-[250px] md:focus:w-[300px]"
+              className="h-9 w-[200px] pl-9 bg-muted/50 focus:bg-background transition-all focus:w-[250px]"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
             />
           </form>
+          <ModeToggle />
         </div>
       </div>
     </header>
