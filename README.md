@@ -1,9 +1,9 @@
-# GitHub Timeline
+# DevJourney
 
 [![CI](https://github.com/pedrordgs/github-timeline/actions/workflows/ci.yml/badge.svg)](https://github.com/pedrordgs/github-timeline/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-A beautiful, responsive web application that visualizes a GitHub user's public repository timeline. Perfect for showcasing your development journey to prospective employers or sharing your coding history.
+A beautiful, responsive web application that visualizes a developer's journey through their GitHub repositories. Perfect for showcasing your development history to prospective employers or sharing your coding milestones.
 
 ## ✨ Features
 
@@ -16,7 +16,7 @@ A beautiful, responsive web application that visualizes a GitHub user's public r
 
 ## 🚀 Demo
 
-![GitHub Timeline Demo](https://via.placeholder.com/800x400?text=Demo+Screenshot)
+![DevJourney Demo](https://via.placeholder.com/800x400?text=DevJourney+Demo+Screenshot)
 
 _Enter a GitHub username and click "Generate Timeline" to see the magic happen!_
 
@@ -33,7 +33,7 @@ _Enter a GitHub username and click "Generate Timeline" to see the magic happen!_
 
    ```bash
    git clone https://github.com/pedrordgs/github-timeline.git
-   cd github-timeline
+   cd dev-journey
    ```
 
 2. **Install dependencies**

@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { UsernameInput } from '@/components/UsernameInput'
-import { GithubIcon } from '@/components/icons'
+import { DevJourneyIcon } from '@/components/icons'
 import { History, GitBranch, Star } from 'lucide-react'
 
 export default function Home() {
@@ -16,7 +16,7 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen bg-background flex flex-col relative overflow-hidden">
+    <div className="flex flex-col relative overflow-hidden">
       {/* Abstract Background Elements */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
         <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/20 rounded-full blur-[100px] animate-pulse" />
@@ -26,10 +26,10 @@ export default function Home() {
       <main className="flex-1 flex flex-col items-center justify-center container mx-auto px-4 py-16 text-center">
         <div className="mb-8 animate-in fade-in slide-in-from-bottom-4 duration-1000">
           <div className="bg-card/50 backdrop-blur-xl p-4 rounded-2xl inline-block shadow-lg border border-border/50 mb-6">
-            <GithubIcon className="h-16 w-16 mx-auto" />
+            <DevJourneyIcon className="h-16 w-16 mx-auto text-primary" />
           </div>
           <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-6 bg-gradient-to-r from-foreground to-foreground/60 bg-clip-text text-transparent">
-            GitHub Timeline
+            DevJourney
           </h1>
           <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
             Visualize your development journey.
@@ -69,12 +69,6 @@ export default function Home() {
           />
         </div>
       </main>
-
-      <footer className="py-6 text-center text-sm text-muted-foreground border-t border-border/40 bg-background/50 backdrop-blur-sm">
-        <p>
-          © {new Date().getFullYear()} GitHub Timeline. Built for developers.
-        </p>
-      </footer>
     </div>
   )
 }
