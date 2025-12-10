@@ -3,7 +3,7 @@
 [![CI](https://github.com/pedrordgs/github-timeline/actions/workflows/ci.yml/badge.svg)](https://github.com/pedrordgs/github-timeline/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-A beautiful, responsive web application that visualizes a developer's journey through their GitHub repositories. Perfect for showcasing your development history to prospective employers or sharing your coding milestones.
+A modern, responsive web application that visualizes a developer's journey through their GitHub repositories. Perfect for showcasing your development history to prospective employers or sharing your coding milestones.
 
 ## ✨ Features
 
@@ -14,9 +14,9 @@ A beautiful, responsive web application that visualizes a developer's journey th
 - 📱 **Responsive Design**: Works seamlessly on desktop and mobile devices
 - 🎨 **Modern UI**: Built with Shadcn UI and Tailwind CSS for a polished look
 
-## 🚀 Demo
+## 🚀 Live Demo
 
-![DevJourney Demo](https://via.placeholder.com/800x400?text=DevJourney+Demo+Screenshot)
+Check out the live application: [https://dev-journey-delta.vercel.app](https://dev-journey-delta.vercel.app)
 
 _Enter a GitHub username and click "Generate Timeline" to see the magic happen!_
 
@@ -122,7 +122,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 🙏 Acknowledgments
 
 - GitHub REST API for repository data
-- Shadcn UI for beautiful components
+- Shadcn UI for high-quality components
 - Next.js community for excellent documentation
 
 ## 📞 Support
