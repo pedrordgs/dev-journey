@@ -2,6 +2,21 @@
   "name": "dev-journey",
   "version": "0.1.0",
   "private": true,
+  "description": "A modern, responsive web application that visualizes a developer's journey through their GitHub repositories.",
+  "author": "Pedro Rodrigues",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pedrordgs/dev-journey.git"
+  },
+  "keywords": [
+    "nextjs",
+    "react",
+    "github",
+    "timeline",
+    "portfolio",
+    "visualization"
+  ],
   "scripts": {
     "dev": "next dev",
     "build": "next build",

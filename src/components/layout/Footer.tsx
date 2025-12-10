@@ -19,7 +19,7 @@ export function Footer() {
         <div className="flex items-center gap-2">
           <span className="text-sm text-muted-foreground">Source code</span>
           <a
-            href="https://github.com/pedrordgs/github-timeline"
+            href="https://github.com/pedrordgs/dev-journey"
             target="_blank"
             rel="noreferrer"
             className="text-muted-foreground hover:text-foreground transition-colors"
