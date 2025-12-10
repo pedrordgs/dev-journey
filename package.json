@@ -1,5 +1,5 @@
 {
-  "name": "github-timeline",
+  "name": "dev-journey",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -39,6 +39,7 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "baseline-browser-mapping": "^2.9.5",
     "eslint": "^9",
     "eslint-config-next": "16.0.2",
     "eslint-config-prettier": "^10.1.8",
