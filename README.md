@@ -13,6 +13,7 @@ A modern, responsive web application that visualizes a developer's journey throu
 - ⚠️ **Error Handling**: Clear warnings for invalid usernames or API errors
 - 📱 **Responsive Design**: Works seamlessly on desktop and mobile devices
 - 🎨 **Modern UI**: Built with Shadcn UI and Tailwind CSS for a polished look
+- 🌓 **Dark Mode**: Seamless toggle between light and dark themes
 
 ## 🚀 Live Demo
 
@@ -91,7 +92,7 @@ docker compose up --build
 - [ ] Add repository language statistics
 - [ ] Implement timeline filtering options
 - [ ] Add export functionality (PDF/Image)
-- [ ] Dark mode support
+- [x] Dark mode support
 - [ ] Add repo detail page with title, description, tags, etc.
 - [ ] Inside repo page, add commit timeline for specific branch (show all users or allow to filter per user). Allow to filter per branch.
 - [ ] Redirect to commit detail when clicking on commit timeline
