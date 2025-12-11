@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation'
 import { DevJourneyIcon } from '@/components/icons'
 import { Search } from 'lucide-react'
 import { Input } from '@/components/ui/input'
-import { ModeToggle } from '@/components/mode-toggle'
+import { ModeToggle } from '@/components/ModeToggle'
 
 export function Header() {
   const router = useRouter()
